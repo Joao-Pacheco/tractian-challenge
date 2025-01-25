@@ -7,7 +7,7 @@ import SelectedAsset from "@/components/SelectedAsset/SelectedAsset";
 
 export default function Home() {
   return (
-    <div>
+    <div className="h-screen">
       <HeaderTractian></HeaderTractian>
       <ContainerMain>
         <ContentHeader></ContentHeader>

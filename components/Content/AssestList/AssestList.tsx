@@ -4,7 +4,7 @@ import TreeView from "./TreeView/TreeView";
 
 export default function AssestList() {
   return (
-    <div className="rounded-sm border border-[#D8DFE6] basis-1/3 p-0 mr-2">
+    <div className="rounded-sm border border-[#D8DFE6] basis-1/3 p-0 mr-2 bg-white shadow-md rounded-md">
       <div className="relative w-full">
         <input
           type="text"
@@ -15,7 +15,7 @@ export default function AssestList() {
           <Image src="/search-icon.svg" alt="Buscar" width={15} height={15} />
         </div>
       </div>
-      <div className="p-4 bg-white shadow-md rounded-md">
+      <div className="p-4">
         {data.map((node, index) => (
           <TreeView key={index} node={node} />
         ))}
