@@ -18,7 +18,7 @@ export default function HeaderTractian() {
               width={12}
               height={12}
               className="mr-2"
-            />{" "}
+            />
             Apex Unit
           </button>
         </li>
@@ -30,7 +30,7 @@ export default function HeaderTractian() {
               width={12}
               height={12}
               className="mr-2"
-            />{" "}
+            />
             Tobias Unit
           </button>
         </li>

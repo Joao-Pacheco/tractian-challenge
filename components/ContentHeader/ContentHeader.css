@@ -1,0 +1,3 @@
+.content-header-button {
+  @apply text-base flex items-center rounded-sm border border-[#D8DFE6] px-4 py-1 font-semibold;
+}

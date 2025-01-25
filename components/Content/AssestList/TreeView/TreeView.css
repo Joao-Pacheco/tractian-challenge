@@ -1,0 +1,9 @@
+.item-list:before {
+  content: "";
+  background: #0000000f;
+  width: 1px;
+  height: 85%;
+  position: absolute;
+  top: 23px;
+  left: 0;
+}
