@@ -13,9 +13,10 @@ export default function ContentHeader() {
           <Image
             src="/energia-icon.svg"
             alt="Sensor de Energia"
-            width={12}
-            height={12}
-            className="mr-2"
+            width="0"
+            height="0"
+            sizes="100vw"
+            className="w-full h-auto mr-2 max-w-[14px]"
           />
           Sensor de Energia
         </button>
@@ -23,9 +24,10 @@ export default function ContentHeader() {
           <Image
             src="/critico-icon.svg"
             alt="Crítico"
-            width={12}
-            height={12}
-            className="mr-2"
+            width="0"
+            height="0"
+            sizes="100vw"
+            className="w-full h-auto mr-2 max-w-[14px]"
           />
           Crítico
         </button>

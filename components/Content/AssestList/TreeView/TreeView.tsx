@@ -19,9 +19,10 @@ export default function TreeView({ node }: TreeNodeProps) {
       <Image
         src="/arro-donw-icon.svg"
         alt={"Location"}
-        width={8}
-        height={5}
-        className="absolute top-2 left-[-4px]"
+        width="0"
+        height="0"
+        sizes="100vw"
+        className="w-full max-w-[10px] h-auto absolute top-2 left-[-4px]"
       />
       <div
         className={`flex gap-2 ${node.type === "location" ? "item-list" : ""}`}
@@ -31,15 +32,19 @@ export default function TreeView({ node }: TreeNodeProps) {
             <Image
               src="/location-icon.svg"
               alt={"Location"}
-              width={15}
-              height={15}
+              width="0"
+              height="0"
+              sizes="100vw"
+              className="w-full h-auto"
             />
           ) : (
             <Image
               src="/component-icon.svg"
               alt={"Location"}
-              width={15}
-              height={15}
+              width="0"
+              height="0"
+              sizes="100vw"
+              className="w-full h-auto"
             />
           )}
         </span>

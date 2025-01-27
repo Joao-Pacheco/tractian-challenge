@@ -4,8 +4,9 @@ import ContentHeader from "@/components/ContentHeader/ContentHeader";
 import Content from "@/components/Content/Content";
 import AssestList from "@/components/Content/AssestList/AssestList";
 import SelectedAsset from "@/components/SelectedAsset/SelectedAsset";
+import { ToastContainer } from "react-toastify";
 
-export default function Home() {
+export default async function Home() {
   return (
     <div className="h-screen">
       <HeaderTractian></HeaderTractian>
@@ -16,6 +17,7 @@ export default function Home() {
           <SelectedAsset></SelectedAsset>
         </Content>
       </ContainerMain>
+      <ToastContainer />
     </div>
   );
 }

@@ -1,7 +1,7 @@
 import Image from "next/image";
 
 export default function SelectedAsset() {
-  const hasImage = true;
+  const hasImage = false;
 
   return (
     <div className="rounded-sm border border-[#D8DFE6] basis-2/3 pb-4 shadow-md">
@@ -12,15 +12,23 @@ export default function SelectedAsset() {
       <div className="p-4 flex w-full justify-between">
         {hasImage ? (
           <Image
-            className="shadow-md rounded-md flex-2"
             src="/image-test.png"
             alt="Motor"
-            width={336}
-            height={226}
+            width="0"
+            height="0"
+            sizes="100vw"
+            className="w-full h-auto shadow-md rounded-md flex-2 max-w-[336px]"
           />
         ) : (
           <div className="flex flex-col items-center justify-center w-[336px] h-[226px] border-2 border-dashed border-blue-300 bg-blue-50 rounded-lg">
-            <Image src="/upload-icon.svg" alt="Upload" width={31} height={31} />
+            <Image
+              src="/upload-icon.svg"
+              alt="Upload"
+              width="0"
+              height="0"
+              sizes="100vw"
+              className="w-full h-auto max-w-[50px]"
+            />
             <p className="mt-4 text-blue-400 text-sm font-medium">
               Adicionar imagem do Ativo
             </p>
@@ -52,9 +60,10 @@ export default function SelectedAsset() {
             <Image
               src="/sendor-icon.svg"
               alt="Sensor de Energia"
-              width={12}
-              height={12}
-              className="mr-2"
+              width="0"
+              height="0"
+              sizes="100vw"
+              className="w-full h-auto mr-2 max-w-[20px]"
             />
             HIO4510
           </div>
@@ -65,9 +74,10 @@ export default function SelectedAsset() {
             <Image
               src="/receptor.svg"
               alt="Sensor de Energia"
-              width={12}
-              height={12}
-              className="mr-2"
+              width="0"
+              height="0"
+              sizes="100vw"
+              className="w-full h-auto mr-2 max-w-[20px]"
             />
             EUH4R27
           </div>

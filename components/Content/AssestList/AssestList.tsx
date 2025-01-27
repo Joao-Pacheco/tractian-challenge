@@ -12,7 +12,14 @@ export default function AssestList() {
           placeholder="Buscar Ativo ou Local"
         />
         <div className="absolute inset-y-0 right-5 flex items-center pl-3 pointer-events-none">
-          <Image src="/search-icon.svg" alt="Buscar" width={15} height={15} />
+          <Image
+            src="/search-icon.svg"
+            alt="Buscar"
+            width="0"
+            height="0"
+            sizes="100vw"
+            className="w-full h-auto"
+          />
         </div>
       </div>
       <div className="p-4">
