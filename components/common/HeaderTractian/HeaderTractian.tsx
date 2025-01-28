@@ -1,7 +1,7 @@
 "use client";
 import Image from "next/image";
 import "./HeaderTractian.css";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { toast } from "react-toastify";
 import { useCompaniesStore } from "../../../store/companies.store";
 

@@ -1,3 +1,4 @@
+/* TODO excluir esse arquivo */
 export type TreeNodeType = {
   name: string;
   type: "location" | "equipment";

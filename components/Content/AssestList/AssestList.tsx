@@ -1,8 +1,17 @@
+"use client";
 import Image from "next/image";
-import { data, TreeNodeType } from "./data";
+import { data } from "./data";
 import TreeView from "./TreeView/TreeView";
+import { useEffect } from "react";
+import { useCompaniesStore } from "@/store/companies.store";
+import { treeViewCreate } from "./TreeView/TreeViewCreate";
 
 export default function AssestList() {
+  const { companies } = useCompaniesStore();
+  useEffect(() => {
+    if (companies.length === 0) return;
+    treeViewCreate(companies);
+  }, [companies]);
   return (
     <div className="rounded-sm border border-[#D8DFE6] basis-1/3 p-0 mr-2 bg-white shadow-md rounded-md">
       <div className="relative w-full">
