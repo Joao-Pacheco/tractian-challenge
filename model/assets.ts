@@ -9,6 +9,7 @@ interface AssetNotCatalogued {
   locationId: string | null;
 }
 interface Asset {
+  type: string;
   id: string;
   name: string;
   locationId: string | null;
@@ -16,6 +17,7 @@ interface Asset {
 }
 
 interface SubAsset {
+  type: string;
   id: string;
   name: string;
   parentId: string | null;
@@ -23,6 +25,7 @@ interface SubAsset {
 }
 
 interface Component {
+  type: string;
   id: string;
   name: string;
   parentId: string | null;
@@ -31,9 +34,11 @@ interface Component {
   status: string | null;
   gatewayId: string | null;
   locationId: string | null;
+  children: null;
 }
 
 interface AssetOrSubAsset {
+  type: string;
   id: string;
   name: string;
   parentId: string | null;

@@ -1,10 +1,29 @@
-import { createLocalRequestContext } from "next/dist/server/after/builtin-request-context";
 import { NextResponse } from "next/server";
-import { Children } from "react";
+
+type Location = {
+  id: string;
+  name: string;
+  parentId: string | null;
+};
+
+type LocationParent = {
+  id: string;
+  name: string;
+  parentId: string | null;
+  children: (LocationParent | Sublocation)[];
+  type: "location";
+};
+
+type Sublocation = {
+  id: string;
+  name: string;
+  parentId: string;
+  children: Sublocation[];
+  type: "sublocation";
+};
 
 async function fetchLocations(companyId: string): Promise<Location[]> {
   const API_URL = `https://fake-api.tractian.com/companies/${companyId}/locations`;
-
   const response = await fetch(API_URL);
 
   if (!response.ok) {
@@ -14,45 +33,64 @@ async function fetchLocations(companyId: string): Promise<Location[]> {
   return response.json();
 }
 
-function locationParentAdapter(item: Location) {
+function locationParentAdapter(item: Location): LocationParent {
   return {
     id: item.id,
     name: item.name,
     parentId: item.parentId,
     children: [],
+    type: "location",
   };
 }
 
-function subLocationAdapter(item: Location) {
+function subLocationAdapter(item: Location): Sublocation {
   return {
     id: item.id,
     name: item.name,
     parentId: item.parentId ?? "",
     children: [],
+    type: "sublocation",
   };
 }
 
-export async function GET(request: Request, context: any) {
-  const { params } = context;
-  const { id } = params;
+function associateSublocations(
+  items: (LocationParent | Sublocation)[],
+  sublocations: Sublocation[]
+) {
+  items.forEach((item) => {
+    const children = sublocations.filter((sub) => sub.parentId === item.id);
+
+    item.children.push(...children);
+
+    sublocations = sublocations.filter((sub) => sub.parentId !== item.id);
+
+    if (item.children.length > 0) {
+      associateSublocations(item.children, sublocations);
+    }
+  });
+}
+
+export async function GET(
+  request: Request,
+  context: { params: { id: string } }
+) {
+  const { id } = context.params;
+
   try {
-    let locations = await fetchLocations(id);
-    let locationsParents = <LocationParent[]>[];
-    let sublocations = <Sublocation[]>[];
+    const locations = await fetchLocations(id);
 
-    locations.map((item) => {
-      if (item.parentId === null)
-        return locationsParents.push(locationParentAdapter(item));
-      return sublocations.push(subLocationAdapter(item));
+    const locationsParents: LocationParent[] = [];
+    const sublocations: Sublocation[] = [];
+
+    locations.forEach((item) => {
+      if (item.parentId === null) {
+        locationsParents.push(locationParentAdapter(item));
+      } else {
+        sublocations.push(subLocationAdapter(item));
+      }
     });
 
-    sublocations.map((item) => {
-      locationsParents.map((parent) => {
-        if (parent.id === item.parentId) {
-          parent.children.push(item);
-        }
-      });
-    });
+    associateSublocations(locationsParents, sublocations);
 
     return NextResponse.json(
       { success: true, data: locationsParents },

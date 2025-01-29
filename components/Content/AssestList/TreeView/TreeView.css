@@ -1,4 +1,4 @@
-.item-list:before {
+.item-list:not(.not-parent):before {
   content: "";
   background: #0000000f;
   width: 1px;

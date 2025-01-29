@@ -10,6 +10,21 @@ async function fetchAssets(companyId: string): Promise<AssetNotCatalogued[]> {
   return response.json();
 }
 
+function componentAdapter(item: AssetNotCatalogued): Component {
+  return {
+    id: item.id,
+    name: item.name,
+    parentId: item.parentId,
+    sensorId: item.sensorId,
+    sensorType: item.sensorType,
+    status: item.status,
+    gatewayId: item.gatewayId,
+    locationId: item.locationId,
+    children: null,
+    type: "component",
+  };
+}
+
 export async function GET(request: Request, context: any) {
   const { params } = context;
   const { id } = params;
@@ -25,9 +40,9 @@ export async function GET(request: Request, context: any) {
     for (const item of response) {
       if (item.sensorType !== null) {
         if (item.parentId || item.locationId) {
-          components.push(item);
+          components.push(componentAdapter(item));
         } else {
-          componentWithoutParentOrLocation.push(item);
+          componentWithoutParentOrLocation.push(componentAdapter(item));
         }
       } else {
         const key = item.parentId ? "sub" : "asset";
@@ -39,6 +54,7 @@ export async function GET(request: Request, context: any) {
                 parentId: item.parentId,
                 locationId: null,
                 children: [],
+                type: "subasset",
               }
             : {
                 id: item.id,
@@ -46,6 +62,7 @@ export async function GET(request: Request, context: any) {
                 parentId: null,
                 locationId: item.locationId,
                 children: [],
+                type: "asset",
               };
         if (key === "sub") {
           subAssetsMap.set(item.id, adaptedItem);

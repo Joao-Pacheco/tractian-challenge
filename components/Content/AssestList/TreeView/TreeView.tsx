@@ -1,64 +1,110 @@
 import React from "react";
-import { TreeNodeType } from "../data";
 import Image from "next/image";
 import "./TreeView.css";
 
-type TreeNodeProps = {
-  node: TreeNodeType;
-};
+interface TreeViewProps {
+  key: number | string;
+  item: Location | Component;
+}
 
-export default function TreeView({ node }: TreeNodeProps) {
-  const getStatusColor = (status?: "online" | "offline") => {
-    if (status === "online") return "text-green-500";
-    if (status === "offline") return "text-red-500";
+export default function TreeView({ item }: TreeViewProps) {
+  const getStatusColor = (status?: "operating" | "alert") => {
+    if (status === "operating") return "text-green-500";
+    if (status === "alert") return "text-red-500";
     return "text-gray-400";
+  };
+
+  const getCorrentIcon = (type: string) => {
+    switch (type) {
+      case "location":
+        return (
+          <Image
+            src="/location-icon.svg"
+            alt={"Location"}
+            width="0"
+            height="0"
+            sizes="100vw"
+            className="w-full h-auto"
+          />
+        );
+      case "sublocation":
+        return (
+          <Image
+            src="/location-icon.svg"
+            alt={"Location"}
+            width="0"
+            height="0"
+            sizes="100vw"
+            className="w-full h-auto"
+          />
+        );
+      case "component":
+        return (
+          <Image
+            src="/component-icon.svg"
+            alt={"component"}
+            width="0"
+            height="0"
+            sizes="100vw"
+            className="w-full h-auto"
+          />
+        );
+      case "asset":
+        return (
+          <Image
+            src="/asset-icon.svg"
+            alt={"asset"}
+            width="0"
+            height="0"
+            sizes="100vw"
+            className="w-full h-auto"
+          />
+        );
+      case "subasset":
+        return (
+          <Image
+            src="/asset-icon.svg"
+            alt={"asset"}
+            width="0"
+            height="0"
+            sizes="100vw"
+            className="w-full h-auto"
+          />
+        );
+    }
   };
 
   return (
     <div className="pl-3 relative m-2 text-sm">
-      <Image
-        src="/arro-donw-icon.svg"
-        alt={"Location"}
-        width="0"
-        height="0"
-        sizes="100vw"
-        className="w-full max-w-[10px] h-auto absolute top-2 left-[-4px]"
-      />
+      {item.children !== null && item.children.length !== 0 && (
+        <Image
+          src="/arro-donw-icon.svg"
+          alt={"Location"}
+          width="0"
+          height="0"
+          sizes="100vw"
+          className="w-full max-w-[10px] h-auto absolute top-2 left-[-4px]"
+        />
+      )}
       <div
-        className={`flex gap-2 ${node.type === "location" ? "item-list" : ""}`}
+        className={`flex gap-2 ${item.type === "location" ? "item-list" : ""} ${
+          item.children !== null && item.children.length !== 0
+            ? ""
+            : "not-parent"
+        }`}
       >
-        <span className="text-blue-500">
-          {node.type === "location" ? (
-            <Image
-              src="/location-icon.svg"
-              alt={"Location"}
-              width="0"
-              height="0"
-              sizes="100vw"
-              className="w-full h-auto"
-            />
-          ) : (
-            <Image
-              src="/component-icon.svg"
-              alt={"Location"}
-              width="0"
-              height="0"
-              sizes="100vw"
-              className="w-full h-auto"
-            />
-          )}
-        </span>
+        <span className="text-blue-500">{getCorrentIcon(item.type)}</span>
 
-        <span className="text-gray-700 font-medium">{node.name}</span>
+        <span className="text-gray-700 font-medium">{item.name}</span>
 
-        {node.status && (
-          <span className={`${getStatusColor(node.status)} text-xs`}>●</span>
+        {item.status && (
+          <span className={`${getStatusColor(item.status)} text-xs`}>●</span>
         )}
       </div>
 
-      {node.children &&
-        node.children.map((child, index) => (
-          <TreeView key={index} node={child} />
+      {item.children &&
+        item.children.map((children: Location | Component) => (
+          <TreeView key={item.id + children.id} item={children} />
         ))}
     </div>
   );

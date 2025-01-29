@@ -1,4 +1,5 @@
 interface Location {
+  type: string;
   id: string;
   name: string;
   parentId: string | null;
@@ -6,6 +7,7 @@ interface Location {
 }
 
 interface LocationParent {
+  type: string;
   id: string;
   name: string;
   parentId: string | null;
@@ -14,6 +16,7 @@ interface LocationParent {
 }
 
 interface Sublocation {
+  type: string;
   id: string;
   name: string;
   parentId: string;
