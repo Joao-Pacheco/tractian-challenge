@@ -4,13 +4,22 @@ import { data } from "./data";
 import TreeView from "./TreeView/TreeView";
 import { useEffect } from "react";
 import { useCompaniesStore } from "@/store/companies.store";
+import { useLocationsStore } from "@/store/locations.store";
 import { treeViewCreate } from "./TreeView/TreeViewCreate";
 
 export default function AssestList() {
   const { companies } = useCompaniesStore();
+  const { locations, setLocations } = useLocationsStore();
+
+  async function handleTreeViewCreate() {
+    await treeViewCreate(companies).then((locations) => {
+      setLocations(locations);
+    });
+  }
+
   useEffect(() => {
     if (companies.length === 0) return;
-    treeViewCreate(companies);
+    handleTreeViewCreate();
   }, [companies]);
   return (
     <div className="rounded-sm border border-[#D8DFE6] basis-1/3 p-0 mr-2 bg-white shadow-md rounded-md">

@@ -1,5 +1,6 @@
 import { createLocalRequestContext } from "next/dist/server/after/builtin-request-context";
 import { NextResponse } from "next/server";
+import { Children } from "react";
 
 async function fetchLocations(companyId: string): Promise<Location[]> {
   const API_URL = `https://fake-api.tractian.com/companies/${companyId}/locations`;
@@ -27,6 +28,7 @@ function subLocationAdapter(item: Location) {
     id: item.id,
     name: item.name,
     parentId: item.parentId ?? "",
+    children: [],
   };
 }
 

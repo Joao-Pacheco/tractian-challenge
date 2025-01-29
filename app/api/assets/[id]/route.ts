@@ -17,10 +17,10 @@ export async function GET(request: Request, context: any) {
   try {
     const response = await fetchAssets(id);
 
-    const componentWithoutParentOrLocation: Componet[] = [];
+    const componentWithoutParentOrLocation: Component[] = [];
     const assetsMap = new Map<string, Asset>();
     const subAssetsMap = new Map<string, SubAsset>();
-    const components: Componet[] = [];
+    const components: Component[] = [];
 
     for (const item of response) {
       if (item.sensorType !== null) {
@@ -76,11 +76,10 @@ export async function GET(request: Request, context: any) {
     return NextResponse.json(
       {
         success: true,
-        data: {
-          assets: Array.from(assetsMap.values()),
-          componentWithoutParentOrLocation,
-          response,
-        },
+        data: [
+          ...Array.from(assetsMap.values()),
+          ...componentWithoutParentOrLocation,
+        ],
       },
       { status: 200 }
     );

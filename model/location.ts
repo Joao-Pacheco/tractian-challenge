@@ -9,7 +9,7 @@ interface LocationParent {
   id: string;
   name: string;
   parentId: string | null;
-  children: Array<Sublocation>;
+  children: Array<Sublocation | Component | Asset | SubAsset>;
   [key: string]: any;
 }
 
@@ -17,5 +17,6 @@ interface Sublocation {
   id: string;
   name: string;
   parentId: string;
+  children: Array<Component | Asset | SubAsset>;
   [key: string]: any;
 }

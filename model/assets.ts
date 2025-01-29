@@ -12,17 +12,17 @@ interface Asset {
   id: string;
   name: string;
   locationId: string | null;
-  children: Array<SubAsset | Componet>;
+  children: Array<SubAsset | Component>;
 }
 
 interface SubAsset {
   id: string;
   name: string;
   parentId: string | null;
-  children: Array<SubAsset | Componet>;
+  children: Array<SubAsset | Component>;
 }
 
-interface Componet {
+interface Component {
   id: string;
   name: string;
   parentId: string | null;
@@ -38,5 +38,5 @@ interface AssetOrSubAsset {
   name: string;
   parentId: string | null;
   locationId: string | null;
-  children: (Asset | SubAsset | Componet)[];
+  children: (Asset | SubAsset | Component)[];
 }
