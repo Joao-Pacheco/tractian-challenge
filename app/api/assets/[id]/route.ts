@@ -36,6 +36,7 @@ export async function GET(request: Request, context: any) {
     const assetsMap = new Map<string, Asset>();
     const subAssetsMap = new Map<string, SubAsset>();
     const components: Component[] = [];
+    const componentsWithLocation: Component[] = [];
 
     for (const item of response) {
       if (item.sensorType !== null) {
@@ -76,10 +77,12 @@ export async function GET(request: Request, context: any) {
       const parent = component.parentId
         ? subAssetsMap.get(component.parentId) ||
           assetsMap.get(component.parentId)
-        : assetsMap.get(component.locationId ?? "");
+        : null;
 
       if (parent) {
         parent.children.push(component);
+      } else if (component.locationId) {
+        componentsWithLocation.push(component);
       }
     }
 
@@ -96,6 +99,7 @@ export async function GET(request: Request, context: any) {
         data: [
           ...Array.from(assetsMap.values()),
           ...componentWithoutParentOrLocation,
+          ...componentsWithLocation,
         ],
       },
       { status: 200 }

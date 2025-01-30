@@ -20,7 +20,9 @@ export default function AssestList() {
   }
 
   const renderedList = useMemo(() => {
-    return list.map((item) => <TreeView key={item.id} item={item} />);
+    return list.map((item) => {
+      return <TreeView key={item.id} item={item} />;
+    });
   }, [list]);
 
   useEffect(() => {

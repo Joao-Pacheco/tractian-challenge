@@ -14,6 +14,7 @@ interface Asset {
   name: string;
   locationId: string | null;
   children: Array<SubAsset | Component>;
+  parentId: string | null;
 }
 
 interface SubAsset {

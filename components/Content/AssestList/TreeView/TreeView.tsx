@@ -1,6 +1,7 @@
 import React from "react";
 import Image from "next/image";
 import "./TreeView.css";
+import { stat } from "fs";
 
 interface TreeViewProps {
   key: number | string;
@@ -74,6 +75,28 @@ export default function TreeView({ item }: TreeViewProps) {
     }
   };
 
+  const getSensorType = (sensor: string, status?: "operating" | "alert") => {
+    switch (sensor) {
+      case "vibration":
+        return <>●</>;
+      case "energy":
+        return (
+          <>
+            <Image
+              src={status === "alert" ? "/bolt-icon-red.svg" : "/bolt-icon.svg"}
+              alt={"Sensor de Energia"}
+              width="0"
+              height="0"
+              sizes="100vw"
+              className={`w-full h-auto mr-2 ${
+                status === "alert" ? "max-w-[18px]" : "max-w-[9px]"
+              }`}
+            />
+          </>
+        );
+    }
+  };
+
   return (
     <div className="pl-3 relative m-2 text-sm">
       {item.children !== null && item.children.length !== 0 && (
@@ -98,7 +121,9 @@ export default function TreeView({ item }: TreeViewProps) {
         <span className="text-gray-700 font-medium">{item.name}</span>
 
         {item.status && (
-          <span className={`${getStatusColor(item.status)} text-xs`}>●</span>
+          <span className={`${getStatusColor(item.status)} text-xs`}>
+            {getSensorType(item.sensorType, item.status)}
+          </span>
         )}
       </div>
 

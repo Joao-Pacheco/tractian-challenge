@@ -74,7 +74,7 @@ export async function GET(
   request: Request,
   context: { params: { id: string } }
 ) {
-  const { id } = context.params;
+  const { id } = await context.params;
 
   try {
     const locations = await fetchLocations(id);
