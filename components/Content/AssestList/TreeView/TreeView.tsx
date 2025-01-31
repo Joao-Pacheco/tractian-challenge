@@ -13,7 +13,8 @@ interface TreeViewProps {
 }
 
 export default function TreeView({ item }: TreeViewProps) {
-  const [expanded, setExpanded] = useState(true);
+  const children = item.children || [];
+  const [expanded, setExpanded] = useState(children.length >= 9 ? false : true);
   const { mainComponent, setMainComponent } = useMainComponentStore();
 
   const handleClickToSelect = (item: Component | Location) => {
@@ -35,7 +36,7 @@ export default function TreeView({ item }: TreeViewProps) {
           height="0"
           sizes="100vw"
           className={`w-full max-w-[10px] h-auto absolute top-2 left-[-4px] ${
-            expanded ? "-rotate-90" : ""
+            !expanded ? "-rotate-90" : ""
           }`}
         />
       )}

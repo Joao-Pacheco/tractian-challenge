@@ -23,8 +23,9 @@ type Sublocation = {
 };
 
 async function fetchLocations(companyId: string): Promise<Location[]> {
-  const API_URL = `https://fake-api.tractian.com/companies/${companyId}/locations`;
-  const response = await fetch(API_URL);
+  const response = await fetch(
+    `https://fake-api.tractian.com/companies/${companyId}/locations`
+  );
 
   if (!response.ok) {
     throw new Error(`Failed to fetch locations. Status: ${response.status}`);
@@ -57,24 +58,34 @@ function associateSublocations(
   items: (LocationParent | Sublocation)[],
   sublocations: Sublocation[]
 ) {
-  items.forEach((item) => {
-    const children = sublocations.filter((sub) => sub.parentId === item.id);
+  const sublocationMap = new Map<string, Sublocation[]>();
 
-    item.children.push(...children);
-
-    sublocations = sublocations.filter((sub) => sub.parentId !== item.id);
-
-    if (item.children.length > 0) {
-      associateSublocations(item.children, sublocations);
+  sublocations.forEach((sub) => {
+    if (!sublocationMap.has(sub.parentId)) {
+      sublocationMap.set(sub.parentId, []);
     }
+    sublocationMap.get(sub.parentId)?.push(sub);
   });
+
+  const processItems = (items: (LocationParent | Sublocation)[]) => {
+    items.forEach((item) => {
+      const children = sublocationMap.get(item.id) || [];
+      item.children.push(...children);
+
+      if (children.length > 0) {
+        processItems(children);
+      }
+    });
+  };
+
+  processItems(items);
 }
 
 export async function GET(
   request: Request,
   context: { params: { id: string } }
 ) {
-  const { id } = await context.params;
+  const { id } = context.params;
 
   try {
     const locations = await fetchLocations(id);

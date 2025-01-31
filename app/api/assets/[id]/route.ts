@@ -1,12 +1,14 @@
 import { NextResponse } from "next/server";
 
 async function fetchAssets(companyId: string): Promise<AssetNotCatalogued[]> {
-  const API_URL = `https://fake-api.tractian.com/companies/${companyId}/assets`;
-  const response = await fetch(API_URL);
+  const response = await fetch(
+    `https://fake-api.tractian.com/companies/${companyId}/assets`
+  );
 
   if (!response.ok) {
     throw new Error(`Failed to fetch assets. Status: ${response.status}`);
   }
+
   return response.json();
 }
 
@@ -27,8 +29,7 @@ function componentAdapter(item: AssetNotCatalogued): Component {
 }
 
 export async function GET(request: Request, context: any) {
-  const { params } = context;
-  const { id } = await params;
+  const { id } = context.params;
 
   try {
     const response = await fetchAssets(id);
@@ -41,31 +42,23 @@ export async function GET(request: Request, context: any) {
 
     for (const item of response) {
       if (item.sensorType !== null) {
+        const component = componentAdapter(item);
         if (item.parentId || item.locationId) {
-          components.push(componentAdapter(item));
+          components.push(component);
         } else {
-          componentWithoutParentOrLocation.push(componentAdapter(item));
+          componentWithoutParentOrLocation.push(component);
         }
       } else {
         const key = item.parentId ? "sub" : "asset";
-        const adaptedItem =
-          key === "sub"
-            ? {
-                id: item.id,
-                name: item.name,
-                parentId: item.parentId,
-                locationId: null,
-                children: [],
-                type: "subasset",
-              }
-            : {
-                id: item.id,
-                name: item.name,
-                parentId: null,
-                locationId: item.locationId,
-                children: [],
-                type: "asset",
-              };
+        const adaptedItem = {
+          id: item.id,
+          name: item.name,
+          parentId: item.parentId,
+          locationId: key === "asset" ? item.locationId : null,
+          children: [],
+          type: key === "sub" ? "subasset" : "asset",
+        };
+
         if (key === "sub") {
           subAssetsMap.set(item.id, adaptedItem);
         } else {
@@ -98,7 +91,7 @@ export async function GET(request: Request, context: any) {
       {
         success: true,
         data: [
-          ...Array.from(assetsMap.values()),
+          ...assetsMap.values(),
           ...componentWithoutParentOrLocation,
           ...componentsWithLocation,
         ],

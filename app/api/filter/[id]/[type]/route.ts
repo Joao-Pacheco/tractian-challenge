@@ -1,70 +1,61 @@
 import { NextResponse } from "next/server";
 
 const fetchData = async (url: string, errorMessage: string) => {
-  const apiUrl = "http://localhost:3000/";
+  const response = await fetch(`http://localhost:3000/${url}`);
 
-  try {
-    const response = await fetch(apiUrl + url);
-
-    if (!response.ok) {
-      throw new Error(errorMessage);
-    }
-
-    const { data } = await response.json();
-    return data;
-  } catch (error: any) {
-    throw new Error(`Failed to fetch the data. Status: ${error.status}`);
+  if (!response.ok) {
+    throw new Error(errorMessage);
   }
+
+  const { data } = await response.json();
+  return data;
 };
 
 const fetchTree = async (id: string) => {
-  return fetchData(`/api/tree/${id}`, "Error fetching tree");
+  return fetchData(`api/tree/${id}`, "Error fetching tree");
 };
 
 const searchType = (type: string, item: Location | Component) => {
   if (type === "energy" && item.sensorType) {
-    console.log(type);
-
     return item.sensorType.toLowerCase() === "energy";
   }
   if (type === "critical" && item.sensorType) {
     return item.status.toLowerCase().includes("alert");
   }
+  return false;
 };
-function searchTree(
-  list: Location[] | Component[],
-  type: string
-): Array<Location | Component> {
-  const filterItems = (
-    items: Location[] | Component[]
-  ): Location[] | Component[] => {
-    return items.reduce<Location[] | Component[]>((accumulator: any, item) => {
+
+const searchTree = (list: Location[] | Component[], type: string) => {
+  const filterItems = (items: Location[] | Component[]) => {
+    return items.reduce<Array<Location | Component>>((acc: any, item) => {
       if (searchType(type, item)) {
-        accumulator.push(item);
+        acc.push(item);
       } else if (item.children) {
         const filteredChildren = filterItems(item.children);
         if (filteredChildren.length > 0) {
-          accumulator.push({ ...item, children: filteredChildren });
+          acc.push({
+            ...item,
+            children: item.children ? filteredChildren : null,
+          });
         }
       }
-      return accumulator;
+      return acc;
     }, []);
   };
 
-  const result = filterItems(list);
-  return result;
-}
+  return filterItems(list);
+};
 
 export async function GET(
   request: Request,
   context: { params: { id: string; type: string } }
 ) {
-  const { id, type } = await context.params;
+  const { id, type } = context.params;
 
   try {
     let list = await fetchTree(id);
-
     list = searchTree(list, type);
+
     if (list.length === 0) {
       list = [
         {

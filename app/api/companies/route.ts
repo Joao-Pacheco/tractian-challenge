@@ -1,9 +1,7 @@
 import { NextResponse } from "next/server";
 
 async function fetchCompanies(): Promise<Company[]> {
-  const API_URL = "https://fake-api.tractian.com/companies";
-
-  const response = await fetch(API_URL);
+  const response = await fetch("https://fake-api.tractian.com/companies");
 
   if (!response.ok) {
     throw new Error(`Failed to fetch companies. Status: ${response.status}`);
@@ -14,15 +12,14 @@ async function fetchCompanies(): Promise<Company[]> {
 
 export async function GET() {
   try {
-    let companies = await fetchCompanies();
-
-    companies = companies.map((item, index) => ({
+    const companies = await fetchCompanies();
+    const updatedCompanies = companies.map((item, index) => ({
       ...item,
       selected: index === 0,
     }));
 
     return NextResponse.json(
-      { success: true, data: companies },
+      { success: true, data: updatedCompanies },
       { status: 200 }
     );
   } catch (error: any) {
