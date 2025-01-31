@@ -4,10 +4,17 @@ import "./HeaderTractian.css";
 import { useEffect } from "react";
 import { toast } from "react-toastify";
 import { useCompaniesStore } from "../../../store/companies.store";
+import { useFiltersStore } from "@/store/filters.store";
 
 export default function HeaderTractian() {
   const { companies, setCompanies } = useCompaniesStore();
   const { selectCompany } = useCompaniesStore();
+  const { removeSelectedFilter } = useFiltersStore();
+
+  const handleSelectCompany = (company: Company) => {
+    removeSelectedFilter();
+    selectCompany(company);
+  };
 
   useEffect(() => {
     const fetchCompanies = async () => {
@@ -51,7 +58,7 @@ export default function HeaderTractian() {
               className="flex items-center"
               onClick={(event) => {
                 event.preventDefault();
-                selectCompany(company);
+                handleSelectCompany(company);
               }}
             >
               <Image

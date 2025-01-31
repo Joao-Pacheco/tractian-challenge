@@ -36,6 +36,7 @@ interface Component {
   gatewayId: string | null;
   locationId: string | null;
   children: null;
+  selected: boolean;
 }
 
 interface AssetOrSubAsset {

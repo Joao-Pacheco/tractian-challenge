@@ -11,3 +11,11 @@
 .bolt-icon {
   fill: red;
 }
+
+.item-tree:hover {
+  @apply cursor-pointer bg-[#2188ff];
+}
+
+.item-tree:hover .item-tree-text {
+  @apply text-white;
+}

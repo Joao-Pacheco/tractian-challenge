@@ -22,12 +22,13 @@ function componentAdapter(item: AssetNotCatalogued): Component {
     locationId: item.locationId,
     children: null,
     type: "component",
+    selected: false,
   };
 }
 
 export async function GET(request: Request, context: any) {
   const { params } = context;
-  const { id } = params;
+  const { id } = await params;
 
   try {
     const response = await fetchAssets(id);
