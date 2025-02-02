@@ -7,14 +7,21 @@ import { useMainComponentStore } from "@/store/mainComponent.store";
 import { useFiltersStore } from "@/store/filters.store";
 import { Filter } from "@/utils/types/filter";
 import { createTreeView } from "@/utils/createTreeView/createTreeView";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function ContentHeader() {
   const { companies } = useCompaniesStore();
   const { setList } = useListStore();
   const { setMainComponent } = useMainComponentStore();
   const { filters, selectFilter, removeSelectedFilter } = useFiltersStore();
-  const [selectedCompany] = useState(companies.find((c) => c.selected));
+  const [selectedCompany, setSelectedCompany] = useState(companies[0]);
+
+  useEffect(() => {
+    const selectedCompany = companies.find((c) => c.selected);
+    if (selectedCompany) {
+      setSelectedCompany(selectedCompany);
+    }
+  }, [companies]);
 
   const searchByFilter = async (
     filterType: "energy" | "critical",
@@ -24,6 +31,7 @@ export default function ContentHeader() {
       setList([]);
       setMainComponent({});
       selectFilter(filter);
+
       await fetch(`api/filter/${selectedCompany?.id}/${filterType}`)
         .then((response) => response.json())
         .then((locations) => {
@@ -38,7 +46,7 @@ export default function ContentHeader() {
   return (
     <div className="w-full flex items-center justify-between pb-3 text-[#77818C]">
       <div>
-        <span className="text-xl font-semibold text-[#24292F]">Ativos </span>/
+        <span className="text-xl font-semibold text-[#24292F]">Ativos </span>/{" "}
         {selectedCompany?.name}
       </div>
       <div className="flex space-x-2">
