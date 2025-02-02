@@ -39,15 +39,6 @@ To run the project, use the following scripts:
 # Start the development server
 npm run dev
 
-# Build the project
-npm run build
-
-# Start the production server
-npm run start
-
-# Run ESLint
-npm run lint
-
 # Run tests with Jest
 npm run test
 ```
