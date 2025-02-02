@@ -7,7 +7,7 @@ import { getStatusColor } from "@/utils/gets/getStausColor";
 import { getCorrentIcon } from "@/utils/gets/getCorrentIcon";
 import { getSensorType } from "@/utils/gets/getSensorType";
 
-interface TreeViewProps {
+export interface TreeViewProps {
   key: number | string;
   item: Location | Component;
 }

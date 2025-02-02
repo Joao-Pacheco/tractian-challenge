@@ -7,12 +7,14 @@ import { useMainComponentStore } from "@/store/mainComponent.store";
 import { useFiltersStore } from "@/store/filters.store";
 import { Filter } from "@/utils/types/filter";
 import { createTreeView } from "@/utils/createTreeView/createTreeView";
+import { useState } from "react";
 
 export default function ContentHeader() {
   const { companies } = useCompaniesStore();
   const { setList } = useListStore();
   const { setMainComponent } = useMainComponentStore();
   const { filters, selectFilter, removeSelectedFilter } = useFiltersStore();
+  const [selectedCompany] = useState(companies.find((c) => c.selected));
 
   const searchByFilter = async (
     filterType: "energy" | "critical",
@@ -22,8 +24,7 @@ export default function ContentHeader() {
       setList([]);
       setMainComponent({});
       selectFilter(filter);
-      const selectedCompanyId = companies.find((c) => c.selected)?.id;
-      await fetch(`api/filter/${selectedCompanyId}/${filterType}`)
+      await fetch(`api/filter/${selectedCompany?.id}/${filterType}`)
         .then((response) => response.json())
         .then((locations) => {
           return setList(locations.data);
@@ -38,7 +39,7 @@ export default function ContentHeader() {
     <div className="w-full flex items-center justify-between pb-3 text-[#77818C]">
       <div>
         <span className="text-xl font-semibold text-[#24292F]">Ativos </span>/
-        Apex Unit
+        {selectedCompany?.name}
       </div>
       <div className="flex space-x-2">
         {filters.map((filter) => (

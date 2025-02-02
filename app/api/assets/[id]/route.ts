@@ -1,4 +1,4 @@
-import { NextResponse } from "next/server";
+import { NextResponse, NextRequest } from "next/server";
 
 async function fetchAssets(companyId: string): Promise<AssetNotCatalogued[]> {
   const response = await fetch(
@@ -100,6 +100,7 @@ export async function GET(request: Request, context: any) {
     );
   } catch (error: any) {
     console.error("Error fetching assets:", error.message);
+    console.error("Error fetching assets:", error);
     return NextResponse.json(
       {
         success: false,

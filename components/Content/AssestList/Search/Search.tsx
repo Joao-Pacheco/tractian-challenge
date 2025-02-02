@@ -32,6 +32,7 @@ export default function Search() {
   return (
     <div className="relative w-full">
       <input
+        role="search"
         type="text"
         value={inputSearch}
         onKeyDown={(e) => e.key === "Enter" && search()}
