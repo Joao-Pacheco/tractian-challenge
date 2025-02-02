@@ -19,6 +19,8 @@ export default function mainComponent() {
           {getSensorType(mainComponent.sensorType, mainComponent.status)}
         </span>
       </h1>
+      <span className="text-red-500 text-green-500"></span>
+
       {mainComponent.name && (
         <>
           <div className="p-4 flex w-full justify-between">

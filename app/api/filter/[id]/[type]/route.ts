@@ -1,7 +1,8 @@
+import { serverUrl } from "@/utils/gets/serverUrl";
 import { NextResponse } from "next/server";
 
 const fetchData = async (url: string, errorMessage: string) => {
-  const response = await fetch(`http://localhost:3000/${url}`);
+  const response = await fetch(`${serverUrl}/${url}`);
 
   if (!response.ok) {
     throw new Error(errorMessage);

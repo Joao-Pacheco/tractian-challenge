@@ -1,7 +1,8 @@
+import { serverUrl } from "@/utils/gets/serverUrl";
 import { NextResponse } from "next/server";
 
 const fetchData = async (url: string, errorMessage: string) => {
-  const apiUrl = "http://localhost:3000/";
+  const apiUrl = `${serverUrl}/`;
 
   try {
     const response = await fetch(apiUrl + url);

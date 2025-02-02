@@ -62,6 +62,7 @@ export default function TreeView({ item }: TreeViewProps) {
         >
           {item.name}
         </span>
+        <span className="text-red-500 text-green-500"></span>
 
         {item.status && (
           <span
