@@ -71,6 +71,7 @@ export default function TreeView({ item }: TreeViewProps) {
             )} text-xs flex items-center justify-center`}
           >
             {getSensorType(item.sensorType, item.status)}
+            <span className="max-w-[18px]"></span>
           </span>
         )}
       </div>

@@ -17,6 +17,7 @@ export default function mainComponent() {
           )} text-xs ml-2 flex items-center justify-center`}
         >
           {getSensorType(mainComponent.sensorType, mainComponent.status)}
+          <span className="max-w-[18px]"></span>
         </span>
       </h1>
       <span className="text-red-500 text-green-500"></span>

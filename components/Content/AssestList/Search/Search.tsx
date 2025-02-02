@@ -3,20 +3,20 @@ import Image from "next/image";
 import { useCompaniesStore } from "@/store/companies.store";
 import { useListStore } from "@/store/list.store";
 import { useMainComponentStore } from "@/store/mainComponent.store";
-
-interface AssestListProps {
-  list: Location[] | Component[];
-}
+import { useFiltersStore } from "@/store/filters.store";
 
 export default function Search() {
   const [inputSearch, setInputSearch] = useState("");
   const { companies } = useCompaniesStore();
-  const { list, setList } = useListStore();
+  const { setList } = useListStore();
   const { setMainComponent } = useMainComponentStore();
+  const { removeSelectedFilter } = useFiltersStore();
 
   const search = async () => {
     setList([]);
     setMainComponent({});
+    removeSelectedFilter();
+
     const selectedCompanyId = companies.find((c) => c.selected)?.id;
     await fetch(`api/search/${selectedCompanyId}/${inputSearch}`)
       .then((response) => response.json())

@@ -13,7 +13,7 @@ export const getSensorType = (sensor: string | null, status: string | null) => {
             width="0"
             height="0"
             sizes="100vw"
-            className={`w-full h-auto mr-2 ${
+            className={`w-full h-auto mr-2 max-w-[18px] ${
               status === "alert" ? "max-w-[18px]" : "max-w-[9px]"
             }`}
           />

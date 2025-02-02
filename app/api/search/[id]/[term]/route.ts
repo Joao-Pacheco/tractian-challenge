@@ -27,26 +27,24 @@ function searchTree(
 ): Array<Location | Component> {
   const result: Array<Location | Component> = [];
 
-  function search(
-    item: Location | Component,
-    parent: Location | Component
-  ): void {
-    if (item.name.toLowerCase().includes(searchTerm.toLowerCase())) {
-      if (!result.find((item) => item.id === parent.id)) {
-        result.push(parent);
+  const searchItems = (items: Location[] | Component[]) => {
+    return items.reduce<Array<Location | Component>>((acc: any, item) => {
+      if (item.name.toLowerCase().includes(searchTerm.toLowerCase())) {
+        acc.push(item);
+      } else if (item.children) {
+        const filteredChildren = searchItems(item.children);
+        if (filteredChildren.length > 0) {
+          acc.push({
+            ...item,
+            children: item.children ? filteredChildren : null,
+          });
+        }
       }
-    } else if (item.children) {
-      for (const child of item.children) {
-        search(child, parent);
-      }
-    }
-  }
+      return acc;
+    }, []);
+  };
 
-  for (const item of list) {
-    search(item, item);
-  }
-
-  return result;
+  return searchItems(list);
 }
 
 export async function GET(
