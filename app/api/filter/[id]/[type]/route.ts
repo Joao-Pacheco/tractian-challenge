@@ -50,7 +50,7 @@ export async function GET(
   request: Request,
   context: { params: { id: string; type: string } }
 ) {
-  const { id, type } = context.params;
+  const { id, type } = await context.params;
 
   try {
     let list = await fetchTree(id);

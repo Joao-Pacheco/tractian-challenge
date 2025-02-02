@@ -29,7 +29,7 @@ function componentAdapter(item: AssetNotCatalogued): Component {
 }
 
 export async function GET(request: Request, context: any) {
-  const { id } = context.params;
+  const { id } = await context.params;
 
   try {
     const response = await fetchAssets(id);
