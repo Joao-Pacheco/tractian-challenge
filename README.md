@@ -3,7 +3,7 @@ Here’s the translation:
 ## 📹 Demo
 
 Watch a video demonstrating the application opening for each company and selecting a filter:  
-[Watch the demo](https://drive.google.com/file/d/13rsaGmxo2DafnWP7VR3rikou5tPwtfYY/view?usp=sharing) <!-- Replace "#" with the video link -->
+[Watch the demo](https://drive.google.com/file/d/13rsaGmxo2DafnWP7VR3rikou5tPwtfYY/view?usp=sharing) 
 
 ## 🚀 Technologies Used
 
