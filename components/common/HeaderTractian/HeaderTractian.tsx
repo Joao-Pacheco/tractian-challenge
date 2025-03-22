@@ -64,8 +64,8 @@ export default function HeaderTractian() {
               <Image
                 src="/unit-icon.svg"
                 alt={company.name}
-                width="0"
-                height="0"
+                width="14"
+                height="14"
                 sizes="100vw"
                 className="w-full max-w-[14px] h-auto mr-2"
               />

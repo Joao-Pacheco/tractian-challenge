@@ -29,6 +29,8 @@ function componentAdapter(item: AssetNotCatalogued): Component {
 }
 
 export async function GET(request: Request, context: any) {
+  console.log("GET /api/assets/%5Bid%5D");
+
   const { id } = await context.params;
 
   try {

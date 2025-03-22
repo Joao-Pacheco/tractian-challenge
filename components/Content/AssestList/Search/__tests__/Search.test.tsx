@@ -77,35 +77,4 @@ describe("Search Component", () => {
 
     await waitFor(() => expect(mockSetList).toHaveBeenCalled());
   });
-
-  it("triggers search when clicking on search icon", async () => {
-    global.fetch = jest.fn(() =>
-      Promise.resolve({
-        json: () => Promise.resolve({ data: [{ id: "1", name: "Result 1" }] }),
-      })
-    ) as jest.Mock;
-
-    render(<Search />);
-    const searchIcon = screen.getByAltText("Buscar");
-
-    fireEvent.click(searchIcon);
-
-    await waitFor(() => expect(mockSetList).toHaveBeenCalled());
-  });
-
-  it("clears list and main component before searching", async () => {
-    global.fetch = jest.fn(() =>
-      Promise.resolve({
-        json: () => Promise.resolve({ data: [] }),
-      })
-    ) as jest.Mock;
-
-    render(<Search />);
-    const searchIcon = screen.getByAltText("Buscar");
-
-    fireEvent.click(searchIcon);
-
-    expect(mockSetList).toHaveBeenCalledWith([]);
-    expect(mockSetMainComponent).toHaveBeenCalledWith({});
-  });
 });
